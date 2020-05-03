@@ -1,0 +1,40 @@
+Context Succ = (lambda succ . [ ])
+  (lambda n f x . f (n f x));
+
+Context Digits =
+  (lambda 0 1 2 3 4 5 6 7 8 9. [ ])
+    (lambda f x . x)
+    (lambda f x . f x)
+    (lambda f x . f (f x))
+    (lambda f x . f (f (f x)))
+    (lambda f x . f (f (f (f x))))
+    (lambda f x . f (f (f (f (f x)))))
+    (lambda f x . f (f (f (f (f (f x))))))
+    (lambda f x . f (f (f (f (f (f (f x)))))))
+    (lambda f x . f (f (f (f (f (f (f (f x))))))))
+    (lambda f x . f (f (f (f (f (f (f (f (f x)))))))));
+
+Context Plus = (lambda + . [ ])
+  (lambda m . (lambda n . (lambda f . (lambda x . m f (n f x)))));
+
+Context Mul = (lambda * . [ ])
+  (lambda m . (lambda n . (lambda f . (lambda x . m (n f) x))));
+
+Context MkPair = (lambda mkPair . [ ])
+  (lambda first . (lambda second . (lambda func . func first second)));
+
+Context SelectFirst = (lambda first . [ ] )
+  (lambda pair . (pair (lambda fst . (lambda snd . fst))));
+
+Context SelectSecond = (lambda second . [ ])
+  (lambda pair . pair (lambda fst . (lambda snd . snd)));
+
+Context Pair' =
+  [MkPair,SelectFirst,SelectSecond| [ ]];
+
+Context Bool = (lambda true . (lambda false . [ ]))
+  (lambda a . (lambda b . a))
+  (lambda a . (lambda b . b));
+
+Context IsZero = [Bool| (lambda isZero . [ ])
+  (lambda n . n (lambda x . false) true)];
